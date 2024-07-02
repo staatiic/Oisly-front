@@ -9,11 +9,11 @@ import SwiftUI
 
 struct NegociosView: View {
     @State private var negocios: [Negocio] = []
-    @State private var errorMessage: String = ""
+    @State private var errorMessage: String? = nil
 
     var body: some View {
         VStack {
-            if !errorMessage.isEmpty {
+            if let errorMessage = errorMessage, !errorMessage.isEmpty {
                 Text(errorMessage)
                     .foregroundColor(.red)
                     .padding()
@@ -42,7 +42,7 @@ struct NegociosView: View {
             DispatchQueue.main.async {
                 if let negocios = negocios {
                     self.negocios = negocios
-                    self.errorMessage = ""
+                    self.errorMessage = nil // Limpiar el mensaje de error
                 } else {
                     self.negocios = []
                     self.errorMessage = error ?? "Error desconocido"

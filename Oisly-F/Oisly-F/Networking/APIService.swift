@@ -10,6 +10,8 @@ import SwiftUI
 
 class APIService {
     static let shared = APIService()
+    private let baseURL = "http://localhost:3000/api/v1"
+    private init() {}
     
     func addUser(name: String, email: String, password: String, completion: @escaping (Bool, String?) -> Void) {
         guard let url = URL(string: "http://localhost:3000/api/v1/users/") else {
@@ -184,5 +186,119 @@ class APIService {
             }
         }.resume()
     }
+    func fetchFacultades(completion: @escaping ([Facultad]?, String?) -> Void) {
+        guard let url = URL(string: "http://localhost:3000/api/v1/facultades") else {
+            completion(nil, "URL inválida")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(nil, error.localizedDescription)
+                return
+            }
+            
+            guard let data = data else {
+                completion(nil, "Datos no válidos")
+                return
+            }
+            
+            do {
+                let facultades = try JSONDecoder().decode([Facultad].self, from: data)
+                completion(facultades, nil)
+            } catch {
+                completion(nil, error.localizedDescription)
+            }
+        }.resume()
+    }
+    func fetchCategorias(completion: @escaping ([Categoria]?, String?) -> Void) {
+        guard let url = URL(string: "http://localhost:3000/api/v1/categorias") else {
+            completion(nil, "URL inválida")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(nil, error.localizedDescription)
+                return
+            }
+            
+            guard let data = data else {
+                completion(nil, "Datos no válidos")
+                return
+            }
+            
+            do {
+                let categorias = try JSONDecoder().decode([Categoria].self, from: data)
+                completion(categorias, nil)
+            } catch {
+                completion(nil, error.localizedDescription)
+            }
+        }.resume()
+    }
+    func fetchNegociosByCategoria(categoriaId: Int, completion: @escaping ([Negocio]?, Error?) -> Void) {
+        let urlString = "http://localhost:3000/api/v1/negocios/categoria/\(categoriaId)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, NSError(domain: "URL inválida", code: 0, userInfo: nil))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(nil, NSError(domain: "Respuesta inválida del servidor", code: 0, userInfo: nil))
+                return
+            }
+            
+            guard let data = data else {
+                completion(nil, NSError(domain: "Datos no válidos", code: 0, userInfo: nil))
+                return
+            }
+            
+            do {
+                let negocios = try JSONDecoder().decode([Negocio].self, from: data)
+                completion(negocios, nil)
+            } catch {
+                print("Error decoding JSON:", error)
+                completion(nil, error)
+            }
+        }.resume()
+    }
+    func fetchNegociosByFacultad(facultadId: Int, completion: @escaping ([Negocio]?, Error?) -> Void) {
+        let urlString = "http://localhost:3000/api/v1/negocios/facultad/\(facultadId)"
+        guard let url = URL(string: urlString) else {
+            completion(nil, NSError(domain: "URL inválida", code: 0, userInfo: nil))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(nil, NSError(domain: "Respuesta inválida del servidor", code: 0, userInfo: nil))
+                return
+            }
+            
+            guard let data = data else {
+                completion(nil, NSError(domain: "Datos no válidos", code: 0, userInfo: nil))
+                return
+            }
+            
+            do {
+                let negocios = try JSONDecoder().decode([Negocio].self, from: data)
+                completion(negocios, nil)
+            } catch {
+                print("Error decoding JSON:", error)
+                completion(nil, error)
+            }
+        }.resume()
+    }
 }
-
+    

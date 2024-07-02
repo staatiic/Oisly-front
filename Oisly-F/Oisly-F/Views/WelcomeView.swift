@@ -20,7 +20,7 @@ struct WelcomeView: View {
                 selection = "login"
             }
             .padding()
-            .background(Color.purple.opacity(0.7))
+            .background(Color(red: 188/255, green: 184/255, blue: 206/255))
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding(.bottom)

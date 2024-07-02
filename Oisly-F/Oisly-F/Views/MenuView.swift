@@ -27,7 +27,7 @@ struct MenuView: View {
                         VStack(alignment: .leading) {
                             Text(menu.nombre)
                                 .font(.headline)
-                                .foregroundColor(.purple)
+                                .foregroundColor(Color(red: 188/255, green: 184/255, blue: 206/255))
                             Text(menu.descripcion ?? "")
                                 .foregroundColor(.gray)
                                 .font(.subheadline)
@@ -36,6 +36,7 @@ struct MenuView: View {
                 )
             }
             .padding()
+            .background(Color.gray.opacity(0.1))
         }
         .onAppear {
             fetchMenus()

@@ -1,14 +1,4 @@
-//
-//  ContentView.swift
-//  Oisly-Frontend
-//
-//  Created by Diana Ovalle on 01/07/24.
-//
-
-
-import Foundation
 import SwiftUI
-import Vision
 
 struct ContentView: View {
     @State private var name = ""
@@ -18,13 +8,42 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var successMessage = ""
     @State private var negocios: [Negocio] = []
+    @State private var facultades: [Facultad] = []
+    @State private var categorias: [Categoria] = []
+    @State private var selectedFacultad: Facultad?
+    @State private var selectedCategoria: Categoria?
     @State private var selection: String? = nil
-    @State private var selectedNegocio: Negocio? = nil
 
     var body: some View {
         if isLoggedIn {
             NavigationView {
                 VStack {
+                    HStack {
+                        Text("Todos los negocios:")
+                            .font(.headline)
+                        Spacer()
+                    }
+                    .padding()
+
+                    HStack {
+                              NavigationLink(destination: FacultadesView(facultades: facultades, negocios: $negocios, selectedFacultad: $selectedFacultad)) {
+                                  Text("Selecciona la facultad")
+                                      .foregroundColor(.white)
+                                      .padding()
+                                      .background(Color(red: 188/255, green: 184/255, blue: 206/255))
+                                      .cornerRadius(10)
+                              }
+                              .padding()
+
+                              NavigationLink(destination: CategoriasView(categorias: categorias, negocios: $negocios, selectedCategoria: $selectedCategoria)) {
+                                  Text("Selecciona la categoría")
+                                      .foregroundColor(.white)
+                                      .padding()
+                                      .background(Color(red: 188/255, green: 184/255, blue: 206/255))
+                                      .cornerRadius(10)
+                              }
+                          }
+
                     List(negocios, id: \.id) { negocio in
                         NavigationLink(
                             destination: MenuView(negocioId: negocio.id),
@@ -32,7 +51,7 @@ struct ContentView: View {
                                 VStack(alignment: .leading) {
                                     Text(negocio.nombre)
                                         .font(.headline)
-                                        .foregroundColor(.purple)
+                                        .foregroundColor(Color(red: 188/255, green: 184/255, blue: 206/255))
                                     Text(negocio.descripcion ?? "")
                                         .foregroundColor(.gray)
                                         .font(.subheadline)
@@ -40,15 +59,19 @@ struct ContentView: View {
                             }
                         )
                     }
-                    .padding()
 
                     Button("Cerrar sesión") {
                         logoutUser()
                     }
                     .padding()
-                    .foregroundColor(.red)
+                    .background(Color(red: 188/255, green: 184/255, blue: 206/255))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
+                .background(Color.gray.opacity(0.1))
                 .onAppear {
+                    getFacultades()
+                    getCategorias()
                     getNegocios()
                 }
             }
@@ -58,22 +81,20 @@ struct ContentView: View {
             } else if selection == "login" {
                 VStack {
                     TextField("Email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
 
                     SecureField("Contraseña", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                        .background(Color.purple.opacity(0.1))
+                        .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
 
                     Button("Iniciar sesión") {
                         loginUser()
                     }
                     .padding()
-                    .background(Color.purple.opacity(0.7))
+                    .background(Color(red: 188/255, green: 184/255, blue: 206/255))
                     .foregroundColor(.white)
                     .cornerRadius(10)
 
@@ -81,7 +102,7 @@ struct ContentView: View {
                         selection = nil
                     }
                     .padding()
-                    .foregroundColor(.blue)
+                    .foregroundColor(.gray)
 
                     if !errorMessage.isEmpty {
                         Text(errorMessage)
@@ -99,19 +120,16 @@ struct ContentView: View {
             } else if selection == "register" {
                 VStack {
                     TextField("Nombre", text: $name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .background(Color.purple.opacity(0.1))
                         .cornerRadius(10)
 
                     TextField("Email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                        .background(Color.gray.opacity(0.1))
+                        .background(Color.purple.opacity(0.1))
                         .cornerRadius(10)
 
                     SecureField("Contraseña", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .background(Color.purple.opacity(0.1))
                         .cornerRadius(10)
@@ -120,7 +138,7 @@ struct ContentView: View {
                         registerUser()
                     }
                     .padding()
-                    .background(Color.purple.opacity(0.7))
+                    .background(Color(red: 188/255, green: 184/255, blue: 206/255))
                     .foregroundColor(.white)
                     .cornerRadius(10)
 
@@ -128,7 +146,7 @@ struct ContentView: View {
                         selection = nil
                     }
                     .padding()
-                    .foregroundColor(.blue)
+                    .foregroundColor(.gray)
 
                     if !errorMessage.isEmpty {
                         Text(errorMessage)
@@ -143,6 +161,30 @@ struct ContentView: View {
                     }
                 }
                 .padding()
+            }
+        }
+    }
+
+    private func getFacultades() {
+        APIService.shared.fetchFacultades { facultades, error in
+            DispatchQueue.main.async {
+                if let facultades = facultades {
+                    self.facultades = facultades
+                } else {
+                    self.errorMessage = error ?? "Error desconocido"
+                }
+            }
+        }
+    }
+
+    private func getCategorias() {
+        APIService.shared.fetchCategorias { categorias, error in
+            DispatchQueue.main.async {
+                if let categorias = categorias {
+                    self.categorias = categorias
+                } else {
+                    self.errorMessage = error ?? "Error desconocido"
+                }
             }
         }
     }

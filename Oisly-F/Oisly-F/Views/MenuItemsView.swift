@@ -24,12 +24,12 @@ struct MenuItemsView: View {
                 VStack(alignment: .leading) {
                     Text(item.nombre)
                         .font(.headline)
-                        .foregroundColor(.purple)
+                        .foregroundColor(Color(red: 188/255, green: 184/255, blue: 206/255))
                     Text(item.descripcion)
                         .foregroundColor(.gray)
                         .font(.subheadline)
                     Text(String(format: "$%.2f", item.precio))
-                        .foregroundColor(.blue)
+                        .foregroundColor(.black)
                         .font(.body)
                 }
             }
