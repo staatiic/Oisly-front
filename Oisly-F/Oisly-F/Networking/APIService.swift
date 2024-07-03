@@ -13,7 +13,7 @@ class APIService {
     private let baseURL = "http://localhost:3000/api/v1"
     private init() {}
     
-    func addUser(name: String, email: String, password: String, completion: @escaping (Bool, String?) -> Void) {
+    func addUser(name: String, email: String, password: String, facultadId: Int, bio: String, completion: @escaping (Bool, String?) -> Void) {
         guard let url = URL(string: "http://localhost:3000/api/v1/users/") else {
             completion(false, "Invalid URL")
             return
@@ -23,7 +23,9 @@ class APIService {
             "name": name,
             "email": email,
             "password": password,
-            "rol_id": 1
+            "rol_id": 1, // Suponiendo que 1 es el ID del rol por defecto
+            "facultad_id": facultadId,
+            "bio": bio
         ]
         
         var request = URLRequest(url: url)
@@ -103,6 +105,7 @@ class APIService {
             }
         }.resume()
     }
+    
     
     func fetchMenusByNegocio(negocioId: Int, completion: @escaping ([Menu]?, String?) -> Void) {
         guard let url = URL(string: "http://localhost:3000/api/v1/menus/negocio/\(negocioId)") else {
@@ -300,5 +303,60 @@ class APIService {
             }
         }.resume()
     }
+    func updateUserProfile(userId: Int, name: String?, bio: String?, email: String, password: String, rolId: Int, facultadId: Int, completion: @escaping (Bool, String?) -> Void) {
+        guard let url = URL(string: "http://localhost:3000/api/v1/users/\(userId)") else {
+            completion(false, "URL inválida")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        var body: [String: Any] = [
+            "email": email,
+            "password": password,
+            "rol_id": rolId,
+            "facultad_id": facultadId
+        ]
+        
+        if let name = name {
+            body["name"] = name
+        }
+        
+        if let bio = bio {
+            body["bio"] = bio
+        }
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: body, options: [])
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                print("JSON a enviar al servidor: \(jsonString)")
+            }
+            request.httpBody = jsonData
+        } catch {
+            completion(false, "Error al crear el cuerpo de la solicitud")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(false, "Error de red: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(false, "Respuesta del servidor inválida")
+                return
+            }
+            
+            if (200...299).contains(httpResponse.statusCode) {
+                completion(true, nil)
+            } else {
+                completion(false, "Error en la solicitud: \(httpResponse.statusCode)")
+            }
+        }
+        
+        task.resume()
+    }
 }
-    

@@ -13,6 +13,7 @@
 		A7AA42BB2C336B3400DAD7B7 /* Oisly_FTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AA42BA2C336B3400DAD7B7 /* Oisly_FTests.swift */; };
 		A7AA42C52C336B3400DAD7B7 /* Oisly_FUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AA42C42C336B3400DAD7B7 /* Oisly_FUITests.swift */; };
 		A7AA42C72C336B3400DAD7B7 /* Oisly_FUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AA42C62C336B3400DAD7B7 /* Oisly_FUITestsLaunchTests.swift */; };
+		A7B18D692C34D95A0046E440 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B18D682C34D95A0046E440 /* ProfileView.swift */; };
 		A7CFC0CD2C336BCA00F9CA6C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFC0C72C336BCA00F9CA6C /* ContentView.swift */; };
 		A7CFC0CE2C336BCA00F9CA6C /* MenuItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFC0C82C336BCA00F9CA6C /* MenuItemsView.swift */; };
 		A7CFC0CF2C336BCA00F9CA6C /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFC0C92C336BCA00F9CA6C /* MenuView.swift */; };
@@ -55,6 +56,7 @@
 		A7AA42C02C336B3400DAD7B7 /* Oisly-FUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oisly-FUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7AA42C42C336B3400DAD7B7 /* Oisly_FUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oisly_FUITests.swift; sourceTree = "<group>"; };
 		A7AA42C62C336B3400DAD7B7 /* Oisly_FUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oisly_FUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A7B18D682C34D95A0046E440 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A7CFC0C72C336BCA00F9CA6C /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A7CFC0C82C336BCA00F9CA6C /* MenuItemsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemsView.swift; sourceTree = "<group>"; };
 		A7CFC0C92C336BCA00F9CA6C /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				A7CFC0CB2C336BCA00F9CA6C /* WelcomeView.swift */,
 				A7D0850D2C34AC9600A0235A /* FacultadesView.swift */,
 				A7D0850F2C34ACA300A0235A /* CategoriasView.swift */,
+				A7B18D682C34D95A0046E440 /* ProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				A7CFC0DC2C336BD800F9CA6C /* Negocio.swift in Sources */,
 				A7CFC0DB2C336BD800F9CA6C /* Menu.swift in Sources */,
 				A7CFC0D12C336BCA00F9CA6C /* WelcomeView.swift in Sources */,
+				A7B18D692C34D95A0046E440 /* ProfileView.swift in Sources */,
 				A7D0850E2C34AC9600A0235A /* FacultadesView.swift in Sources */,
 				A7D085102C34ACA300A0235A /* CategoriasView.swift in Sources */,
 				A7CFC0CD2C336BCA00F9CA6C /* ContentView.swift in Sources */,
