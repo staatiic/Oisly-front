@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A75985372C35B13000A8A860 /* CreateNegocioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75985362C35B13000A8A860 /* CreateNegocioView.swift */; };
 		A7AA42A82C336B3300DAD7B7 /* Oisly_FApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AA42A72C336B3300DAD7B7 /* Oisly_FApp.swift */; };
 		A7AA42AE2C336B3400DAD7B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7AA42AD2C336B3400DAD7B7 /* Assets.xcassets */; };
 		A7AA42B12C336B3400DAD7B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7AA42B02C336B3400DAD7B7 /* Preview Assets.xcassets */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A75985362C35B13000A8A860 /* CreateNegocioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNegocioView.swift; sourceTree = "<group>"; };
 		A7AA42A42C336B3300DAD7B7 /* Oisly-F.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oisly-F.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7AA42A72C336B3300DAD7B7 /* Oisly_FApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oisly_FApp.swift; sourceTree = "<group>"; };
 		A7AA42AD2C336B3400DAD7B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				A7D0850D2C34AC9600A0235A /* FacultadesView.swift */,
 				A7D0850F2C34ACA300A0235A /* CategoriasView.swift */,
 				A7B18D682C34D95A0046E440 /* ProfileView.swift */,
+				A75985362C35B13000A8A860 /* CreateNegocioView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				A7CFC0D02C336BCA00F9CA6C /* NegociosView.swift in Sources */,
 				A7CFC0D82C336BD800F9CA6C /* Categoria.swift in Sources */,
 				A7CFC0DC2C336BD800F9CA6C /* Negocio.swift in Sources */,
+				A75985372C35B13000A8A860 /* CreateNegocioView.swift in Sources */,
 				A7CFC0DB2C336BD800F9CA6C /* Menu.swift in Sources */,
 				A7CFC0D12C336BCA00F9CA6C /* WelcomeView.swift in Sources */,
 				A7B18D692C34D95A0046E440 /* ProfileView.swift in Sources */,

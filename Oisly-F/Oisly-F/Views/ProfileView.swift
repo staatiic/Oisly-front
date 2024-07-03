@@ -9,26 +9,30 @@ import SwiftUI
 
 struct ProfileView: View {
     @Binding var name: String
-    @Binding var email: String
-    @Binding var selectedFacultad: Facultad?
-    @Binding var bio: String
-    @Binding var userId: Int?
+       @Binding var email: String
+       @Binding var selectedFacultad: Facultad?
+       @Binding var bio: String
+       @Binding var userId: Int?
+    @Binding var negocios: [Negocio]
+       
+       let password: String
+       let rolId: Int
+       let facultadId: Int
+       var categorias: [Categoria]
     
-    let password: String
-    let rolId: Int
-    let facultadId: Int
-    
-    @State private var isEditingName = false
-    @State private var isEditingBio = false
-    @State private var showSaveButton = false
-    @State private var errorMessage = ""
+       
+       @State private var isEditingName = false
+       @State private var isEditingBio = false
+       @State private var showSaveButton = false
+       @State private var errorMessage = ""
+       @State private var showCreateNegocio = false
     
     var body: some View {
         VStack(spacing: 20) {
             Text("Perfil del Usuario")
                 .font(.title)
                 .foregroundColor(Color(red: 188/255, green: 184/255, blue: 206/255))
-            
+     
             VStack(alignment: .leading, spacing: 10) {
                 if isEditingName {
                     TextField("Nombre", text: $name)
@@ -135,6 +139,16 @@ struct ProfileView: View {
             .background(Color.gray.opacity(0.1))
             .cornerRadius(16)
             
+            Button("Crear Negocio") {
+                           showCreateNegocio = true
+                       }
+                       .padding()
+                       .background(Color(red: 188/255, green: 184/255, blue: 206/255))
+                       .foregroundColor(.white)
+                       .cornerRadius(10)
+                       .sheet(isPresented: $showCreateNegocio) {
+                           CreateNegocioView(negocios: $negocios, userId: $userId, facultadId: facultadId ?? 0, categorias: categorias)
+                       }
             if showSaveButton {
                 Button(action: saveChanges) {
                     Text("Guardar Cambios")

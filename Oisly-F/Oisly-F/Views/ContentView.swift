@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var userId: Int?
     @State private var rolId: Int?
     @State private var facultadId: Int?
+
     
     var body: some View {
         if isLoggedIn {
@@ -31,9 +32,10 @@ struct ContentView: View {
                             selectedFacultad: $selectedFacultad,
                             bio: $bio,
                             userId: $userId,
-                            password: password,
+                            negocios: $negocios, password: password,
                             rolId: rolId ?? 0,
-                            facultadId: facultadId ?? 0
+                            facultadId: facultadId ?? 0,
+                            categorias: categorias
                         )
                     ) {
                         Text("Ver Perfil")
@@ -268,50 +270,48 @@ struct ContentView: View {
     }
 
     private func loginUser() {
-           // Lógica para iniciar sesión, obteniendo rolId y facultadId
-           APIService.shared.loginUser(email: email, password: password) { success, response, error in
-               DispatchQueue.main.async {
-                   if success {
-                       if let responseDict = response,
-                          let userDict = responseDict["user"] as? [String: Any] {
-                           
-                           if let name = userDict["nombre"] as? String {
-                               self.name = name
-                           }
-                           
-                           if let facultadId = userDict["facultad_id"] as? Int {
-                               // Asignar facultadId desde la respuesta del servidor
-                               self.selectedFacultad = self.facultadOptions.first(where: { $0.id == facultadId })
-                               self.facultadId = facultadId
-                           }
-                           
-                           if let bio = userDict["bio"] as? String {
-                               self.bio = bio
-                           }
-                           
-                           if let id = userDict["id"] as? Int {
-                               self.userId = id
-                           }
-                           
-                           // Asignar rolId según la lógica de tu aplicación
-                           self.rolId = 1 // Esto es un ejemplo, asigna rolId según corresponda
-                           
-                           self.isLoggedIn = true
-                           self.successMessage = "Inicio de sesión exitoso"
-                           self.errorMessage = ""
-                           
-                       } else {
-                           self.errorMessage = "Respuesta inválida del servidor"
-                           self.successMessage = ""
-                       }
-                   } else {
-                       self.errorMessage = error ?? "Error al iniciar sesión"
-                       self.successMessage = ""
-                   }
-               }
-           }
-       }
-   
+        APIService.shared.loginUser(email: email, password: password) { success, response, error in
+            DispatchQueue.main.async {
+                if success {
+                    if let responseDict = response,
+                       let userDict = responseDict["user"] as? [String: Any] {
+                        
+                        if let name = userDict["nombre"] as? String {
+                            self.name = name
+                        }
+                        
+                        if let facultadId = userDict["facultad_id"] as? Int {
+                            // Asignar facultadId desde la respuesta del servidor
+                            self.selectedFacultad = self.facultadOptions.first(where: { $0.id == facultadId })
+                            self.facultadId = facultadId
+                        }
+                        
+                        if let bio = userDict["bio"] as? String {
+                            self.bio = bio
+                        }
+                        
+                        if let id = userDict["id"] as? Int {
+                            self.userId = id
+                        }
+                        
+                        // Asignar rolId según la lógica de tu aplicación
+                        self.rolId = 1 // Esto es un ejemplo, asigna rolId según corresponda
+                        
+                        self.isLoggedIn = true
+                        self.successMessage = "Inicio de sesión exitoso"
+                        self.errorMessage = ""
+                        
+                    } else {
+                        self.errorMessage = "Respuesta inválida del servidor"
+                        self.successMessage = ""
+                    }
+                } else {
+                    self.errorMessage = error ?? "Error al iniciar sesión"
+                    self.successMessage = ""
+                }
+            }
+        }
+    }
 
     private func logoutUser() {
         isLoggedIn = false
@@ -340,4 +340,3 @@ struct ContentView: View {
         }
     }
 }
-

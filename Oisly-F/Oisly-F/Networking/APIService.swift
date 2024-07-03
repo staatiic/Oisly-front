@@ -359,4 +359,37 @@ class APIService {
         
         task.resume()
     }
-}
+    func createNegocio(negocio: [String: Any], completion: @escaping (Bool, String?) -> Void) {
+          guard let url = URL(string: "http://localhost:3000/api/v1/negocios") else {
+              completion(false, "URL inválida")
+              return
+          }
+
+          var request = URLRequest(url: url)
+          request.httpMethod = "POST"
+          request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+          do {
+              request.httpBody = try JSONSerialization.data(withJSONObject: negocio, options: [])
+          } catch {
+              completion(false, "Error al serializar JSON")
+              return
+          }
+
+          let task = URLSession.shared.dataTask(with: request) { data, response, error in
+              if let error = error {
+                  completion(false, error.localizedDescription)
+                  return
+              }
+
+              guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                  completion(false, "Respuesta inválida del servidor")
+                  return
+              }
+
+              completion(true, nil)
+          }
+
+          task.resume()
+      }
+  }
